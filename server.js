@@ -8,8 +8,12 @@ import projectsRouter from "./apis/projects.mjs";
 import blogsRouter from "./apis/blogs.mjs";
 import servicesRouter from "./apis/services.mjs";
 import certificationRouter from "./apis/certifications.mjs";
+import dotenv from"dotenv";
+import experienceRoute from "./backoffice/routes/experienceRoute.mjs";
+
 
 const app = express();
+const PORT = process.env.PORT || 8000;
 
 //configure cors
 app.use(cors());
@@ -17,19 +21,25 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-
 connection.connect((err) => {
   if (err) throw err;
   console.log("Connected!");
 });
 
-app.use("/experiences", experienceRouter);
-app.use("/techs", techsRouter);
-app.use("/services", servicesRouter);
-app.use("/projects", projectsRouter);
-app.use("/blogs", blogsRouter);
-app.use("/certifications", certificationRouter);
+//Home page
+app.get("/",(req, res) => {
+  res.render("index.ejs")})
+
+//APIS 
+app.use("/api/experiences", experienceRouter);
+app.use("/api/techs", techsRouter);
+app.use("/api/services", servicesRouter);
+app.use("/api/projects", projectsRouter);
+app.use("/api/blogs", blogsRouter);
+app.use("/api/certifications", certificationRouter);
+
+//backoffice
+app.use("/experiences", experienceRoute);
 
 
 app.post("/message", (req, res) => {
@@ -38,12 +48,10 @@ app.post("/message", (req, res) => {
   const sql = "INSERT INTO emails (name, email, message) VALUES (?, ?, ?)";
   connection.query(sql, [name, email, message], (err, result) => {
     if (err) {
-      return res
-        .status(500)
-        .json({
-          message: "Failed to insert email into the database.",
-          error: err.message,
-        });
+      return res.status(500).json({
+        message: "Failed to insert email into the database.",
+        error: err.message,
+      });
     }
     return res
       .status(201)
@@ -52,5 +60,5 @@ app.post("/message", (req, res) => {
 });
 
 app.listen(8000, () => {
-  console.log("Server running");
+  console.log("Server running on port"+PORT);
 });

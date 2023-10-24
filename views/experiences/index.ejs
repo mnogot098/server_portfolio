@@ -1,0 +1,114 @@
+<%- include('../layout/header.ejs') %>
+<div class="container">
+  <h1 class="my-4 text-center">Manage Experiences</h1>
+</div>
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Company</th>
+        <th scope="col">Title</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% experiences.forEach(function(experience) { %>
+      <tr>
+        <td><img src="<%= experience.img %>" alt="Image Description" /></td>
+        <td><%= experience.company %></td>
+        <td><%= experience.title %></td>
+        <td><%= experience.duration %></td>
+        <td><%= experience.description %></td>
+        <td>
+          <button
+            class="btn btn-info show-details"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            data-title="<%= experience.title %>"
+            data-company="<%= experience.company %>"
+            data-duration="<%= experience.duration %>"
+            data-description="<%= experience.description %>"
+          >
+            Show
+          </button>
+          <button class="btn btn-warning text-white">Edit</button>
+          <button class="btn btn-danger text-white">Delete</button>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning-subtle">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          X close
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="border-bottom py-2">
+          <strong>Company:</strong> <span id="modalCompany"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Title:</strong> <span id="modalTitle"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Duration:</strong> <span id="modalDuration"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Description:</strong> <span id="modalDescription"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Modal Content -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const modalTitle = document.getElementById("modalTitle");
+    const modalCompany = document.getElementById("modalCompany");
+    const modalDuration = document.getElementById("modalDuration");
+    const modalDescription = document.getElementById("modalDescription");
+
+    const showModalDetails = (title, company, duration, description) => {
+      modalTitle.textContent = title;
+      modalCompany.textContent = company;
+      modalDuration.textContent = duration;
+      modalDescription.textContent = description;
+    };
+
+    const showDetailsButtons = document.querySelectorAll(".show-details");
+    showDetailsButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const title = this.getAttribute("data-title");
+        const company = this.getAttribute("data-company");
+        const duration = this.getAttribute("data-duration");
+        const description = this.getAttribute("data-description");
+
+        showModalDetails(title, company, duration, description);
+      });
+    });
+  });
+</script>
+
+<%- include('../layout/footer.ejs') %>
