@@ -9,6 +9,7 @@ import servicesRouter from "./apis/services.mjs";
 import techsRouter from "./apis/techs.mjs";
 import experienceRoute from "./backoffice/routes/experienceRoute.mjs";
 import connection from "./db.mjs";
+import techsRoute from "./backoffice/routes/techsRoute .mjs";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -39,6 +40,7 @@ app.use("/api/certifications", certificationRouter);
 
 //backoffice
 app.use("/experiences", experienceRoute);
+app.use("/techs", techsRoute);
 
 app.post("/message", (req, res) => {
   const { name, email, message } = req.body;

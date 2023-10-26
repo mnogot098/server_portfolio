@@ -1,0 +1,225 @@
+<%- include('../layout/header.ejs') %>
+<div class="container">
+  <h1 class="my-4 text-center">Manage Techs</h1>
+</div>
+ <div class="container">
+  <button class="btn btn-success my-4 "><a
+    href="techs/add"
+    class="text-white text-decoration-none"
+    >Add tech</a</button>
+ </div> 
+<div class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Link</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% techs.forEach(function(tech) { %>
+      <tr>
+        <td><%= tech.name %></td>
+        <td><%= tech.link %></td>
+        <td>
+          <button class="btn btn-warning text-white">
+            <a
+              href="techs/edit/<%= tech.id %>"
+              class="text-white text-decoration-none"
+              >Edit</a
+            >
+          </button>
+          <button
+  class="btn btn-danger text-white delete-tech-button"
+   data-bs-toggle="modal"
+  data-bs-target="#delete-modal"
+  data-tech-id="<%= tech.id %>"
+>
+  Delete
+</button>
+
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div
+  class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Delete Confirmation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal" 
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this tech?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <a href="#" class="btn btn-danger" id="delete-tech">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">
+          Delete Confirmation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this tech?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <a href="#" class="btn btn-danger" id="delete-tech">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Show Modal -->
+<div
+  class="modal fade"
+  id="show-modal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning-subtle">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          X close
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="border-bottom py-2">
+          <strong>Company:</strong> <span id="modalCompany"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Title:</strong> <span id="modalTitle"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Duration:</strong> <span id="modalDuration"></span>
+        </p>
+        <p class="border-bottom py-2">
+          <strong>Description:</strong> <span id="modalDescription"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript for Modal Content -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const modalTitle = document.getElementById("modalTitle");
+    const modalCompany = document.getElementById("modalCompany");
+    const modalDuration = document.getElementById("modalDuration");
+    const modalDescription = document.getElementById("modalDescription");
+
+    const showModalDetails = (title, company, duration, description) => {
+      modalTitle.textContent = title;
+      modalCompany.textContent = company;
+      modalDuration.textContent = duration;
+      modalDescription.textContent = description;
+    };
+
+    const showDetailsButtons = document.querySelectorAll(".show-details");
+    // Handle the click on the "Show" button
+showDetailsButtons.forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the link from navigating
+    const title = this.getAttribute("data-title");
+    const company = this.getAttribute("data-company");
+    const duration = this.getAttribute("data-duration");
+    const description = this.getAttribute("data-description");
+
+    showModalDetails(title, company, duration, description);
+  });
+});
+
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".delete-tech-button");
+    const deleteTechLink = document.getElementById("delete-tech");
+
+    let techToDeleteId = null;
+
+    // Handle the click on the "Delete" button to set the tech ID
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    techToDeleteId = this.getAttribute("data-tech-id");
+    event.preventDefault(); // Prevent the link from navigating
+  });
+});
+
+
+    // Handle the click on the "Delete" link in the confirmation modal
+deleteTechLink.addEventListener("click", function () {
+  if (techToDeleteId) {
+    // Send an AJAX request to delete the experience
+    fetch(`techs/delete/${techToDeleteId}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response, e.g., show a success message or reload the page
+        if (data.success) {
+          location.reload(); // Reload the page to reflect the deleted experience
+        } else {
+          alert("Failed to delete tech.");
+        }
+      });
+  }
+
+  // Manually close the delete confirmation modal
+  const deleteModal = new bootstrap.Modal(document.getElementById("delete-modal"));
+  deleteModal.hide();
+});
+
+  });
+</script>
+
+<%- include('../layout/footer.ejs') %>
