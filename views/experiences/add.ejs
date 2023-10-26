@@ -1,0 +1,49 @@
+<%- include('../layout/header.ejs') %>
+<div class="container">
+  <h1 class="my-4 text-center">Add Experience</h1>
+</div>
+<div class="container my-6">
+    <div class="row">
+            <form action="add/save" method="POST">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Title</label>
+                <input
+                name="title"
+                  type="text"
+                  class="form-control col-12"
+                  id="exampleInputEmail1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Company</label>
+                <input
+                name="company"
+                  type="text"
+                  class="form-control col-12"
+                  id="exampleInputEmail1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for "exampleInputEmail1" class="form-label">Duration</label>
+                <input
+                name="duration"
+                  type="text"
+                  class="form-control col-12"
+                  id="exampleInputEmail1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Description</label>
+                <textarea
+                name="description"
+                  class="form-control col-12"
+                  id="exampleInputEmail1"
+                >
+            </textarea>
+              </div>
+              <button type="submit" class="btn btn-success">Edit experience</button>
+            </form>
+    </div>
+
+</div>
+<%- include('../layout/footer.ejs') %>

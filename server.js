@@ -1,16 +1,14 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import experienceRouter from "./apis/experiences.mjs";
-import connection from "./db.mjs";
-import techsRouter from "./apis/techs.mjs";
-import projectsRouter from "./apis/projects.mjs";
 import blogsRouter from "./apis/blogs.mjs";
-import servicesRouter from "./apis/services.mjs";
 import certificationRouter from "./apis/certifications.mjs";
-import dotenv from"dotenv";
+import experienceRouter from "./apis/experiences.mjs";
+import projectsRouter from "./apis/projects.mjs";
+import servicesRouter from "./apis/services.mjs";
+import techsRouter from "./apis/techs.mjs";
 import experienceRoute from "./backoffice/routes/experienceRoute.mjs";
-
+import connection from "./db.mjs";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -27,10 +25,11 @@ connection.connect((err) => {
 });
 
 //Home page
-app.get("/",(req, res) => {
-  res.render("index.ejs")})
+app.get("/", (req, res) => {
+  res.render("index.ejs");
+});
 
-//APIS 
+//APIS
 app.use("/api/experiences", experienceRouter);
 app.use("/api/techs", techsRouter);
 app.use("/api/services", servicesRouter);
@@ -40,7 +39,6 @@ app.use("/api/certifications", certificationRouter);
 
 //backoffice
 app.use("/experiences", experienceRoute);
-
 
 app.post("/message", (req, res) => {
   const { name, email, message } = req.body;
@@ -60,5 +58,5 @@ app.post("/message", (req, res) => {
 });
 
 app.listen(8000, () => {
-  console.log("Server running on port"+PORT);
+  console.log("Server running on port" + PORT);
 });

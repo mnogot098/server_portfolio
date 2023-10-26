@@ -3,8 +3,11 @@
   <h1 class="my-4 text-center">Manage Experiences</h1>
 </div>
  <div class="container">
-  <button class="btn btn-success my-4">Add experience</button>
- </div>
+  <button class="btn btn-success my-4 "><a
+    href="experiences/add"
+    class="text-white text-decoration-none"
+    >Add experience</a</button>
+ </div> 
 <div class="container">
   <table class="table table-bordered">
     <thead>
@@ -25,16 +28,17 @@
         <td><%= experience.description %></td>
         <td>
           <button
-            class="btn btn-info show-details text-white"
-            data-bs-toggle="modal"
-            data-bs-target="#show-modal"
-            data-title="<%= experience.title %>"
-            data-company="<%= experience.company %>"
-            data-duration="<%= experience.duration %>"
-            data-description="<%= experience.description %>"
-          >
-            Show
-          </button>
+          class="btn btn-info show-details text-white"
+          data-bs-toggle="modal"
+          data-bs-target="#show-modal"
+          data-title="<%= experience.title %>"
+          data-company="<%= experience.company %>"
+          data-duration="<%= experience.duration %>"
+          data-description="<%= experience.description %>"
+        >
+          Show
+        </button>
+        
           <button class="btn btn-warning text-white">
             <a
               href="experiences/edit/<%= experience.id %>"
@@ -43,13 +47,14 @@
             >
           </button>
           <button
-            class="btn btn-danger text-white delete-experience-button"
-            data-bs-toggle="modal"
-            data-bs-target="#delete-modal"
-            data-experience-id="<%= experience.id %>"
-          >
-            Delete
-          </button>
+  class="btn btn-danger text-white delete-experience-button"
+  data-bs-toggle="modal"
+  data-bs-target="#delete-modal"
+  data-experience-id="<%= experience.id %>"
+>
+  Delete
+</button>
+
         </td>
       </tr>
       <% }); %>
@@ -117,7 +122,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cancel
         </button>
-        <a href="#" class="btn btn-danger" id="delete-experience">Cpnfirm</a>
+        <a href="#" class="btn btn-danger" id="delete-experience">Confirm</a>
       </div>
     </div>
   </div>
@@ -178,16 +183,19 @@
     };
 
     const showDetailsButtons = document.querySelectorAll(".show-details");
-    showDetailsButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        const title = this.getAttribute("data-title");
-        const company = this.getAttribute("data-company");
-        const duration = this.getAttribute("data-duration");
-        const description = this.getAttribute("data-description");
+    // Handle the click on the "Show" button
+showDetailsButtons.forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the link from navigating
+    const title = this.getAttribute("data-title");
+    const company = this.getAttribute("data-company");
+    const duration = this.getAttribute("data-duration");
+    const description = this.getAttribute("data-description");
 
-        showModalDetails(title, company, duration, description);
-      });
-    });
+    showModalDetails(title, company, duration, description);
+  });
+});
+
   });
   document.addEventListener("DOMContentLoaded", function () {
     const deleteButtons = document.querySelectorAll(".delete-experience-button");
@@ -196,11 +204,13 @@
     let experienceToDeleteId = null;
 
     // Handle the click on the "Delete" button to set the experience ID
-    deleteButtons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        experienceToDeleteId = this.getAttribute("data-experience-id");
-      });
-    });
+deleteButtons.forEach(function (button) {
+  button.addEventListener("click", function (event) {
+    experienceToDeleteId = this.getAttribute("data-experience-id");
+    event.preventDefault(); // Prevent the link from navigating
+  });
+});
+
 
     // Handle the click on the "Delete" link in the confirmation modal
 deleteExperienceLink.addEventListener("click", function () {
