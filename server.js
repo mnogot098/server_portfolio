@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import blogsRouter from "./apis/blogs.mjs";
 import certificationRouter from "./apis/certifications.mjs";
 import experienceRouter from "./apis/experiences.mjs";
 import projectsRouter from "./apis/projects.mjs";
@@ -12,7 +11,9 @@ import connection from "./db.mjs";
 import techsRoute from "./backoffice/routes/techsRoute .mjs";
 import projectsRoute from "./backoffice/routes/projectsRoute.mjs";
 import certificationsRoute from "./backoffice/routes/certificationsRoute.mjs";
-
+import serviceRoute from "./backoffice/routes/servicesRoute.mjs";
+import blogsRouter from "./apis/blogs.mjs";
+import blogRouter from "./backoffice/routes/blogsRoute.mjs";
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -45,6 +46,8 @@ app.use("/experiences", experienceRoute);
 app.use("/techs", techsRoute);
 app.use("/projects", projectsRoute);
 app.use("/certifications", certificationsRoute);
+app.use("/services", serviceRoute);
+app.use("/blogs", blogRouter);
 
 app.post("/message", (req, res) => {
   const { name, email, message } = req.body;
