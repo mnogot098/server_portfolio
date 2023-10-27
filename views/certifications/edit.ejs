@@ -1,15 +1,16 @@
 <%- include('../layout/header.ejs') %>
 <div class="container">
-  <h1 class="my-4 text-center">Add project</h1>
+  <h1 class="my-4 text-center">Edit certification</h1>
 </div>
 <div class="container my-6">
     <div class="row">
-            <form action="add/save" method="POST">
+            <form action="<%= certification.id %>/save" method="POST">
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Title</label>
                 <input
                 name="title"
                   type="text"
+                  value="<%= certification.title %>"
                   class="form-control col-12"
                   id="exampleInputEmail1"
                 />
@@ -19,15 +20,16 @@
                 <input
                 name="image_url"
                   type="text"
+                  value="<%= certification.image_url %>"
                   class="form-control col-12"
                   id="exampleInputEmail1"
                 />
-              </div>
               <div class="mb-3">
-                <label for "exampleInputEmail1" class="form-label">Link url</label>
+                <label for="exampleInputEmail1" class="form-label">Link url</label>
                 <input
                 name="link_url"
                   type="text"
+                  value="<%= certification.link_url%>"
                   class="form-control col-12"
                   id="exampleInputEmail1"
                 />
@@ -39,9 +41,10 @@
                   class="form-control col-12"
                   id="exampleInputEmail1"
                 >
+                <%= certification.description %>
             </textarea>
               </div>
-              <button type="submit" class="btn btn-success">Add project</button>
+              <button type="submit" class="btn btn-success">Edit project</button>
             </form>
     </div>
 
