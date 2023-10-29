@@ -14,6 +14,7 @@ import certificationsRoute from "./backoffice/routes/certificationsRoute.mjs";
 import serviceRoute from "./backoffice/routes/servicesRoute.mjs";
 import blogsRouter from "./apis/blogs.mjs";
 import blogRouter from "./backoffice/routes/blogsRoute.mjs";
+import emailsRoute from "./backoffice/routes/emailsRoute.mjs";
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -48,6 +49,7 @@ app.use("/projects", projectsRoute);
 app.use("/certifications", certificationsRoute);
 app.use("/services", serviceRoute);
 app.use("/blogs", blogRouter);
+app.use("/emails", emailsRoute);
 
 app.post("/message", (req, res) => {
   const { name, email, message } = req.body;
